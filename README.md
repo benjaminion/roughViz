@@ -42,38 +42,13 @@ Apply the features of `roughjs` to each chart:
 As well as additional chart-specific options ([see API below](#API))
 
 
-### Installation
+### Build
 
-Via CDN (expose the `roughViz` global in `html`):
+Generate _dist/roughviz.min.js_ as follows:
 
-```html
-<script src="https://unpkg.com/rough-viz@1.0.6"></script>
 ```
-
-Via `npm`:
-
-```sh
-npm install rough-viz
+npm run buildUmd
 ```
-
-Want to use with `React`? [There's a wrapper!](https://github.com/Chris927/react-roughviz):
-
-```sh
-npm install react-roughviz
-```
-
-Want to use with `Vue`? [There's a wrapper!](https://github.com/jolo-dev/vue-roughviz):
-
-```sh
-npm install vue-roughviz
-```
-
-Want to use it with `Python`? [Go crazy](https://github.com/charlesdong1991/py-roughviz):
-
-```sh
-pip install py-roughviz
-```
-
 
 ### How to use
 
@@ -305,6 +280,16 @@ Optional
 - `xLabel` [string]: Label for x-axis.
 - `yLabel` [string]: Label for y-axis.
 
+#### Additional optional items
+
+This repo adds the following options when supplying the data inline (not via a csv file):
+
+- `interpolation` [array]: whether to interpolate the points in each line with bezier curves (`'curve'`) or straight lines (`'straight'`). If there is only one element it is applied to all lines. Default: `['curve']`.
+- `dash` [array of arrays]: [dash pattern](https://github.com/rough-stuff/rough/wiki#strokelinedash) for each line. If there is only one element it is applied to all lines. Default: `[0]`.
+- `xLabelDelta` [number]: vertical offest for x-axis placement. Default: `0`.
+- `yLabelDelta` [number]: horiszontal offest for x-axis placement. Default: `0`.
+
+In addition, line charts can now handle negative values, and will place the x-axis smartly, with a y-intercept at zero.
 
 ### <code id="Pie">roughViz.Pie</code>
 Required
