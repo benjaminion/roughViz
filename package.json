@@ -4,10 +4,10 @@
   "description": "Hand drawn, rough, sketchy data visualization in svg.",
   "jsdelivr": "dist/roughviz.min.js",
   "unpkg": "dist/roughviz.min.js",
-  "main": "dist/index.js",
+  "private": true,
   "scripts": {
-    "buildUmd": "parcel build src/index.js --target browser --out-file roughviz.min.js --no-source-maps --experimental-scope-hoisting --global roughViz",
-    "build": "parcel build src/index.js --target node --bundle-node-modules --no-source-maps --experimental-scope-hoisting",
+    "buildUmd": "parcel build src/index.js --target browser --out-file roughviz.min.js --no-source-maps --global roughViz",
+    "build": "parcel build src/index.js --target node --bundle-node-modules --no-source-maps",
     "pretestt": "eslint --ignore-path .gitignore .",
     "lint": "eslint --ignore-path .gitignore .",
     "lintFix": "eslint --ignore-path .gitignore . --fix",
@@ -43,7 +43,7 @@
     "d3-selection": "^1.4.0",
     "d3-shape": "^1.3.5",
     "lodash.get": "^4.4.2",
-    "roughjs": "^4.0.0"
+    "roughjs": "^4.5.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",

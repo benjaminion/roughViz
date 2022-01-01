@@ -33,6 +33,8 @@ class Line extends Chart {
     this.stroke = get(opts, 'stroke', 'black');
     this.fillWeight = get(opts, 'fillWeight', 0.85);
     this.colors = opts.colors;
+    this.interpolation = get(opts, 'interpolation', ["curve"]);
+    this.dash = get(opts, 'dash', [0]);
     this.strokeWidth = get(opts, 'strokeWidth', 8);
     this.axisFontSize = opts.axisFontSize;
     this.x = opts.x;
@@ -46,6 +48,8 @@ class Line extends Chart {
     this.circleRoughness = roughCeiling({ roughness: opts.circleRoughness, defaultValue: 2 });
     this.xLabel = get(opts, 'xLabel', '');
     this.yLabel = get(opts, 'yLabel', '');
+    this.xLabelDelta = get(opts, 'xLabelDelta', 0);
+    this.yLabelDelta = get(opts, 'yLabelDelta', 0);
     this.labelFontSize = get(opts, 'labelFontSize', '1rem');
     if (this.dataFormat === 'file') {
       this.dataSources = [];
@@ -141,7 +145,15 @@ class Line extends Chart {
 
     this.yScale = scaleLinear()
       .range([this.height, 0])
-      .domain([0, yExtent[1] + (yRange * 0.05)]);
+      .domain([yExtent[0] - (yRange * 0.05), yExtent[1] + (yRange * 0.05)]);
+
+    if (yExtent[0] >= 0) {
+      this.interceptHeight = this.height;
+    } else if (yExtent[1] <= 0) {
+      this.interceptHeight = 0;
+    } else {
+      this.interceptHeight = this.height * yExtent[1] / yRange
+    }
   }
 
   addLabels() {
@@ -149,7 +161,7 @@ class Line extends Chart {
     if (this.xLabel !== '') {
       this.svg.append('text')
         .attr('x', this.width / 2)
-        .attr('y', this.height + this.margin.bottom / 1.3)
+        .attr('y', this.height + this.margin.bottom / 1.3 + this.xLabelDelta)
         .attr('dx', '1em')
         .attr('class', 'labelText')
         .style('text-anchor', 'middle')
@@ -161,7 +173,7 @@ class Line extends Chart {
     if (this.yLabel !== '') {
       this.svg.append('text')
         .attr('transform', 'rotate(-90)')
-        .attr('y', 0 - this.margin.left / 2)
+        .attr('y', 0 - this.margin.left / 2 + this.yLabelDelta)
         .attr('x', 0 - (this.height / 2))
         .attr('dy', '1em')
         .attr('class', 'labelText')
@@ -187,7 +199,7 @@ class Line extends Chart {
 
     // x-axis
     this.svg.append('g')
-      .attr('transform', 'translate(0,' + this.height + ')')
+      .attr('transform', 'translate(0,' + this.interceptHeight + ')')
       .call(xAxis)
       .attr('class', `xAxis${this.graphClass}`)
       .selectAll('text')
@@ -234,7 +246,7 @@ class Line extends Chart {
         roughSvg.appendChild(roughXAxis);
       });
     selectAll(`.${roughXAxisClass}`)
-      .attr('transform', `translate(0, ${this.height})`);
+      .attr('transform', `translate(0, ${this.interceptHeight})`);
 
     select(`.${yAxisClass}`)
       .selectAll('path.domain').each(function(d, i) {
@@ -402,11 +414,24 @@ class Line extends Chart {
       // remove undefined elements so no odd behavior
       const drawPoints = points.filter(d => d[0] !== undefined);
 
-      const node = this.rc.curve(drawPoints, {
-        stroke: this.colors.length === 1 ? this.colors[0] : this.colors[idx],
-        roughness: this.roughness,
-        bowing: this.bowing,
-      });
+      const interpMode = this.interpolation.length === 1 ? this.interpolation[0] : this.interpolation[idx];
+
+      let node;
+      if (interpMode === "curve") {
+        node = this.rc.curve(drawPoints, {
+          stroke: this.colors.length === 1 ? this.colors[0] : this.colors[idx],
+          strokeLineDash: this.dash.length === 1 ? this.dash[0] : this.dash[idx],
+          roughness: this.roughness,
+          bowing: this.bowing,
+        });
+      } else if (interpMode === "straight") {
+        node = this.rc.linearPath(drawPoints, {
+          stroke: this.colors.length === 1 ? this.colors[0] : this.colors[idx],
+          strokeLineDash: this.dash.length === 1 ? this.dash[0] : this.dash[idx],
+          roughness: this.roughness,
+          bowing: this.bowing,
+        });
+      }
 
       const roughNode = this.roughSvg.appendChild(node);
       roughNode.setAttribute('class', this.graphClass);

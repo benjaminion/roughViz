@@ -1,7 +1,6 @@
 dist/
-node_modules
-jest.config.js
+node_modules/
 examples/
-.cache
+yarn.lock
+.cache/
 .eslintrc
-.vscode/
