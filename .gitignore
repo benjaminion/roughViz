@@ -2,5 +2,6 @@ dist/
 node_modules/
 examples/
 yarn.lock
+package-lock.json
 .cache/
 .eslintrc
