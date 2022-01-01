@@ -1,6 +1,6 @@
 {
   "name": "rough-viz",
-  "version": "1.0.3",
+  "version": "1.0.3-bpe",
   "description": "Hand drawn, rough, sketchy data visualization in svg.",
   "jsdelivr": "dist/roughviz.min.js",
   "unpkg": "dist/roughviz.min.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jwilber/roughViz.git"
+    "url": "git+https://github.com/benjaminion/roughViz.git"
   },
   "keywords": [
     "chart",
@@ -32,7 +32,7 @@
   "bugs": {
     "url": "https://github.com/jwilber/roughViz/issues"
   },
-  "homepage": "https://github.com/jwilber/roughViz#readme",
+  "homepage": "https://github.com/benjaminion/roughViz#readme",
   "dependencies": {
     "d3-array": "^2.12.1",
     "d3-axis": "^1.0.12",
