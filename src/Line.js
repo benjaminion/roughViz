@@ -39,6 +39,9 @@ class Line extends Chart {
     this.axisFontSize = opts.axisFontSize;
     this.x = opts.x;
     this.y = (this.dataFormat === 'object') ? 'y' : opts.y;
+    this.xAxis = get(opts, 'xAxis', true);
+    this.yAxis = get(opts, 'yAxis', true);
+    this.yDomain = opts.yDomain;
     this.xValueFormat = opts.xValueFormat;
     this.yValueFormat = opts.yValueFormat;
     this.legend = opts.legend !== false;
@@ -145,7 +148,7 @@ class Line extends Chart {
 
     this.yScale = scaleLinear()
       .range([this.height, 0])
-      .domain([yExtent[0] - (yRange * 0.05), yExtent[1] + (yRange * 0.05)]);
+      .domain(this.yDomain === undefined ? [yExtent[0] - (yRange * 0.05), yExtent[1] + (yRange * 0.05)] : this.yDomain);
 
     if (yExtent[0] >= 0) {
       this.interceptHeight = this.height;
@@ -185,40 +188,45 @@ class Line extends Chart {
   }
 
   addAxes() {
-    const xAxis = axisBottom(this.xScale)
-      .tickSize(0)
-      .tickFormat((d) => {
-        return this.xValueFormat ? format(this.xValueFormat)(d) : d;
-      });
 
-    const yAxis = axisLeft(this.yScale)
-      .tickSize(0)
-      .tickFormat((d) => {
-        return this.yValueFormat ? format(this.yValueFormat)(d) : d;
-      });
+    if (this.xAxis) {
+      const xAxis = axisBottom(this.xScale)
+            .tickSize(0)
+            .tickFormat((d) => {
+              return this.xValueFormat ? format(this.xValueFormat)(d) : d;
+            });
 
-    // x-axis
-    this.svg.append('g')
-      .attr('transform', 'translate(0,' + this.interceptHeight + ')')
-      .call(xAxis)
-      .attr('class', `xAxis${this.graphClass}`)
-      .selectAll('text')
-      .attr('transform', 'translate(-10, 0)rotate(-45)')
-      .style('text-anchor', 'end')
-      .style('font-family', this.fontFamily)
-      .style('font-size', (this.axisFontSize === undefined) ?
-        `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
-        this.axisFontSize);
+      // x-axis
+      this.svg.append('g')
+        .attr('transform', 'translate(0,' + this.interceptHeight + ')')
+        .call(xAxis)
+        .attr('class', `xAxis${this.graphClass}`)
+        .selectAll('text')
+        .attr('transform', 'translate(-10, 0)rotate(-45)')
+        .style('text-anchor', 'end')
+        .style('font-family', this.fontFamily)
+        .style('font-size', (this.axisFontSize === undefined) ?
+               `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
+               this.axisFontSize);
+    }
 
-    // y-axis
-    this.svg.append('g')
-      .call(yAxis)
-      .attr('class', `yAxis${this.graphClass}`)
-      .selectAll('text')
-      .style('font-family', this.fontFamily)
-      .style('font-size', (this.axisFontSize === undefined) ?
-        `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
-        this.axisFontSize);
+    if (this.yAxis) {
+      const yAxis = axisLeft(this.yScale)
+            .tickSize(0)
+            .tickFormat((d) => {
+              return this.yValueFormat ? format(this.yValueFormat)(d) : d;
+            });
+
+      // y-axis
+      this.svg.append('g')
+        .call(yAxis)
+        .attr('class', `yAxis${this.graphClass}`)
+        .selectAll('text')
+        .style('font-family', this.fontFamily)
+        .style('font-size', (this.axisFontSize === undefined) ?
+               `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
+               this.axisFontSize);
+    }
 
     // hide original axes
     selectAll('path.domain')

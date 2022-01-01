@@ -287,7 +287,10 @@ This repo adds the following options when supplying the data inline (not via a c
 - `interpolation` [array]: whether to interpolate the points in each line with bezier curves (`'curve'`) or straight lines (`'straight'`). If there is only one element it is applied to all lines. Default: `['curve']`.
 - `dash` [array of arrays]: [dash pattern](https://github.com/rough-stuff/rough/wiki#strokelinedash) for each line. If there is only one element it is applied to all lines. Default: `[0]`.
 - `xLabelDelta` [number]: vertical offest for x-axis placement. Default: `0`.
-- `yLabelDelta` [number]: horiszontal offest for x-axis placement. Default: `0`.
+- `yLabelDelta` [number]: horizontal offest for x-axis placement. Default: `0`.
+- `yDomain` [array]: explicitly sets the y-axis min and max values if provided. Default: automatic.
+- `xAxis` [boolean]: suppress the x-axis if `false`. Default: `true`.
+- `yAxis` [boolean]: suppress the y-axis if `false`. Default: `true`.
 
 In addition, line charts can now handle negative values, and will place the x-axis smartly, with a y-intercept at zero.
 

@@ -34,6 +34,8 @@ class Bar extends Chart {
     this.padding = get(opts, 'padding', 0.1);
     this.xLabel = get(opts, 'xLabel', '');
     this.yLabel = get(opts, 'yLabel', '');
+    this.xLabelDelta = get(opts, 'xLabelDelta', 0);
+    this.yLabelDelta = get(opts, 'yLabelDelta', 0);
     this.labelFontSize = get(opts, 'labelFontSize', '1rem');
     // new width
     this.initChartValues(opts);
@@ -107,7 +109,7 @@ class Bar extends Chart {
     if (this.xLabel !== '') {
       this.svg.append('text')
         .attr('x', this.width / 2)
-        .attr('y', this.height + this.margin.bottom / 2)
+        .attr('y', this.height + this.margin.bottom / 1.3 + this.xLabelDelta)
         .attr('dx', '1em')
         .attr('class', 'labelText')
         .style('text-anchor', 'middle')
@@ -119,7 +121,7 @@ class Bar extends Chart {
     if (this.yLabel !== '') {
       this.svg.append('text')
         .attr('transform', 'rotate(-90)')
-        .attr('y', 0 - this.margin.left / 1.4)
+        .attr('y', 0 - this.margin.left / 2 + this.yLabelDelta)
         .attr('x', 0 - (this.height / 2))
         .attr('dy', '1em')
         .attr('class', 'labelText')
