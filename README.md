@@ -291,6 +291,8 @@ This repo adds the following options when supplying the data inline (not via a c
 - `yDomain` [array]: explicitly sets the y-axis min and max values if provided. Default: automatic.
 - `xAxis` [boolean]: suppress the x-axis if `false`. Default: `true`.
 - `yAxis` [boolean]: suppress the y-axis if `false`. Default: `true`.
+- `notes` [array of objects]: list of text labels to add to the chart in the form `{x: number, y: number, text: string}`. Default: `[]`.
+- `notesFontSize` [number]: font size for the added notes. Default: `labelFontSize`.
 
 In addition, line charts can now handle negative values, and will place the x-axis smartly, with a y-intercept at zero.
 

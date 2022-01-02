@@ -54,6 +54,8 @@ class Line extends Chart {
     this.xLabelDelta = get(opts, 'xLabelDelta', 0);
     this.yLabelDelta = get(opts, 'yLabelDelta', 0);
     this.labelFontSize = get(opts, 'labelFontSize', '1rem');
+    this.notes = get(opts, 'notes', []);
+    this.notesFontSize = get(opts, 'notesFontSize', this.labelFontSize);
     if (this.dataFormat === 'file') {
       this.dataSources = [];
       this.yKeys = Object.keys(opts).filter((name) => /y/.test(name));
@@ -184,6 +186,20 @@ class Line extends Chart {
         .style('font-family', this.fontFamily)
         .style('font-size', this.labelFontSize)
         .text(this.yLabel);
+    };
+
+    // Custom notes
+    if (this.notes !== undefined) {
+      this.notes.forEach((note) => {
+        this.svg.append('text')
+          .attr('x', note.x)
+          .attr('y', note.y)
+          .attr('class', 'notesText')
+          .style('text-anchor', 'middle')
+          .style('font-family', this.fontFamily)
+          .style('font-size', this.notesFontSize)
+          .text(note.text)
+      });
     };
   }
 
