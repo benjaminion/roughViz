@@ -56,6 +56,8 @@ class Line extends Chart {
     this.labelFontSize = get(opts, 'labelFontSize', '1rem');
     this.notes = get(opts, 'notes', []);
     this.notesFontSize = get(opts, 'notesFontSize', this.labelFontSize);
+    this.xLines = get(opts, 'xLines', []);
+    this.yLines = get(opts, 'yLines', []);
     if (this.dataFormat === 'file') {
       this.dataSources = [];
       this.yKeys = Object.keys(opts).filter((name) => /y/.test(name));
@@ -189,18 +191,16 @@ class Line extends Chart {
     };
 
     // Custom notes
-    if (this.notes !== undefined) {
-      this.notes.forEach((note) => {
-        this.svg.append('text')
-          .attr('x', note.x)
-          .attr('y', note.y)
-          .attr('class', 'notesText')
-          .style('text-anchor', 'middle')
-          .style('font-family', this.fontFamily)
-          .style('font-size', this.notesFontSize)
-          .text(note.text)
-      });
-    };
+    this.notes.forEach((note) => {
+      this.svg.append('text')
+        .attr('x', note.x)
+        .attr('y', note.y)
+        .attr('class', 'notesText')
+        .style('text-anchor', 'middle')
+        .style('font-family', this.fontFamily)
+        .style('font-size', this.notesFontSize)
+        .text(note.text)
+    });
   }
 
   addAxes() {
@@ -475,6 +475,33 @@ class Line extends Chart {
         });
       };
     });
+
+    // Any vertical lines requested
+    this.xLines.forEach((xLine) => {
+      const xDomain = this.xScale.domain();
+      const xExtent = xDomain[xDomain.length - 1] - xDomain[0];
+      const xCoord = this.width * xLine.x / xExtent;
+      const node = this.rc.linearPath([[xCoord,0],[xCoord,this.height]], {
+        stroke: this.colors[0], // TODO add more color options
+        strokeLineDash: xLine.dash,
+        roughness: this.roughness,
+        bowing: this.bowing,
+      });
+      this.roughSvg.appendChild(node);
+    });
+
+    // Any horizontal lines requested
+    this.yLines.forEach((yLine) => {
+      const yCoord = this.yScale(yLine.y);
+      const node = this.rc.linearPath([[0, yCoord],[this.width, yCoord]], {
+        stroke: this.colors[0], // TODO add more color options
+        strokeLineDash: yLine.dash,
+        roughness: this.roughness,
+        bowing: this.bowing,
+      });
+      this.roughSvg.appendChild(node);
+    });
+
     // ADD LEGEND
     const legendItems = this.dataSources.map((key, i) => ({
       color: this.colors[i],

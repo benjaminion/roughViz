@@ -293,6 +293,8 @@ This repo adds the following options when supplying the data inline (not via a c
 - `yAxis` [boolean]: suppress the y-axis if `false`. Default: `true`.
 - `notes` [array of objects]: list of text labels to add to the chart in the form `{x: number, y: number, text: string}`. Default: `[]`.
 - `notesFontSize` [number]: font size for the added notes. Default: `labelFontSize`.
+- `xLines` [array of objects]: list of vertical lines to add at a given x-value in the form `{x: number, dash: array}`. Default: `[]`.
+- `yLines` [array of objects]: list of horizontal lines to add at a given y-value in the form `{y: number, dash: array}`. Default: `[]`.
 
 In addition, line charts can now handle negative values, and will place the x-axis smartly, with a y-intercept at zero.
 
