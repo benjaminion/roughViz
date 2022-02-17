@@ -80,9 +80,9 @@ class Line extends Chart {
     const height = opts.height ? opts.height : 400;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
-    this.roughId = this.el + '_svg';
     this.graphClass = this.el.substring(1, this.el.length);
     this.interactionG = 'g.' + this.graphClass;
+    this.roughId = this.graphClass + '_svg';
     this.setSvg();
   }
 
@@ -169,7 +169,6 @@ class Line extends Chart {
       this.svg.append('text')
         .attr('x', this.width / 2)
         .attr('y', this.height + this.margin.bottom / 1.3 + this.xLabelDelta)
-        // .attr('dx', '1em')
         .attr('class', 'labelText')
         .style('text-anchor', 'middle')
         .style('font-family', this.fontFamily)
@@ -182,7 +181,6 @@ class Line extends Chart {
         .attr('transform', 'rotate(-90)')
         .attr('y', 0 - this.margin.left / 2 + this.yLabelDelta)
         .attr('x', 0 - (this.height / 2))
-        // .attr('dy', '1em')
         .attr('class', 'labelText')
         .style('text-anchor', 'middle')
         .style('font-family', this.fontFamily)
@@ -218,7 +216,7 @@ class Line extends Chart {
         .call(xAxis)
         .attr('class', `xAxis${this.graphClass}`)
         .selectAll('text')
-        .attr('dy', 0)
+        .attr('dy', null)
         .attr('transform', 'translate(0, 10)rotate(-45)')
         .style('text-anchor', 'end')
         .style('font-family', this.fontFamily)
@@ -239,7 +237,7 @@ class Line extends Chart {
         .call(yAxis)
         .attr('class', `yAxis${this.graphClass}`)
         .selectAll('text')
-        .attr('dy', 0)
+        .attr('dy', null)
         .attr('transform', 'translate(0, 5)')
         .style('text-anchor', 'end')
         .style('font-family', this.fontFamily)

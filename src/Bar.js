@@ -1,4 +1,3 @@
-
 import { max } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
@@ -52,9 +51,9 @@ class Bar extends Chart {
     const height = opts.height ? opts.height : 450;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
-    this.roughId = this.el + '_svg';
     this.graphClass = this.el.substring(1, this.el.length);
     this.interactionG = 'g.' + this.graphClass;
+    this.roughId = this.graphClass + '_svg';
     this.setSvg();
   }
 
@@ -146,7 +145,7 @@ class Bar extends Chart {
       .call(xAxis)
       .attr('class', `xAxis${this.graphClass}`)
       .selectAll('text')
-      .attr('dy', 0)
+      .attr('dy', null)
       .attr('transform', 'translate(0, 10)rotate(-45)')
       .style('text-anchor', 'end')
       .style('font-family', this.fontFamily)
@@ -160,7 +159,7 @@ class Bar extends Chart {
       .call(yAxis)
       .attr('class', `yAxis${this.graphClass}`)
       .selectAll('text')
-      .attr('dy', 0)
+      .attr('dy', null)
       .attr('transform', 'translate(0, 5)')
       .style('font-family', this.fontFamily)
       .style('font-size', (this.axisFontSize === undefined) ?
@@ -344,8 +343,8 @@ class Bar extends Chart {
         });
       const roughNode = this.roughSvg.appendChild(node);
       roughNode.setAttribute('class', this.graphClass);
-      roughNode.setAttribute('attrX', this.data[this.labels][i]);
-      roughNode.setAttribute('attrY', +d);
+      //roughNode.setAttribute('attrX', this.data[this.labels][i]);
+      //roughNode.setAttribute('attrY', +d);
     });
 
     selectAll(this.interactionG).selectAll('path:nth-child(2)')
@@ -376,8 +375,8 @@ class Bar extends Chart {
         });
       const roughNode = this.roughSvg.appendChild(node);
       roughNode.setAttribute('class', this.graphClass);
-      roughNode.setAttribute('attrX', d[this.labels]);
-      roughNode.setAttribute('attrY', +d[this.values]);
+      //roughNode.setAttribute('attrX', d[this.labels]);
+      //roughNode.setAttribute('attrY', +d[this.values]);
     });
 
     selectAll(this.interactionG).selectAll('path:nth-child(2)')
