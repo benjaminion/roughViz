@@ -169,10 +169,10 @@ class Line extends Chart {
       this.svg.append('text')
         .attr('x', this.width / 2)
         .attr('y', this.height + this.margin.bottom / 1.3 + this.xLabelDelta)
+        .attr('font-size', this.labelFontSize)
         .attr('class', 'labelText')
         .style('text-anchor', 'middle')
         .style('font-family', this.fontFamily)
-        .style('font-size', this.labelFontSize)
         .text(this.xLabel);
     };
     // yLabel
@@ -181,10 +181,10 @@ class Line extends Chart {
         .attr('transform', 'rotate(-90)')
         .attr('y', 0 - this.margin.left / 2 + this.yLabelDelta)
         .attr('x', 0 - (this.height / 2))
+        .attr('font-size', this.labelFontSize)
         .attr('class', 'labelText')
         .style('text-anchor', 'middle')
         .style('font-family', this.fontFamily)
-        .style('font-size', this.labelFontSize)
         .text(this.yLabel);
     };
 
@@ -193,10 +193,10 @@ class Line extends Chart {
       this.svg.append('text')
         .attr('x', note.x)
         .attr('y', note.y)
+        .attr('font-size', this.notesFontSize)
         .attr('class', 'notesText')
         .style('text-anchor', 'middle')
         .style('font-family', this.fontFamily)
-        .style('font-size', this.notesFontSize)
         .text(note.text)
     });
   }
@@ -218,11 +218,11 @@ class Line extends Chart {
         .selectAll('text')
         .attr('dy', null)
         .attr('transform', 'translate(0, 10)rotate(-45)')
-        .style('text-anchor', 'end')
-        .style('font-family', this.fontFamily)
-        .style('font-size', (this.axisFontSize === undefined) ?
+        .attr('font-size', (this.axisFontSize === undefined) ?
                `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
-               this.axisFontSize);
+               this.axisFontSize)
+        .style('text-anchor', 'end')
+        .style('font-family', this.fontFamily);
     }
 
     if (this.yAxis) {
@@ -239,11 +239,11 @@ class Line extends Chart {
         .selectAll('text')
         .attr('dy', null)
         .attr('transform', 'translate(0, 5)')
-        .style('text-anchor', 'end')
-        .style('font-family', this.fontFamily)
-        .style('font-size', (this.axisFontSize === undefined) ?
+        .attr('font-size', (this.axisFontSize === undefined) ?
                `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
-               this.axisFontSize);
+               this.axisFontSize)
+        .style('text-anchor', 'end')
+        .style('font-family', this.fontFamily);
     }
 
     // hide original axes
@@ -291,7 +291,7 @@ class Line extends Chart {
       .attr('x', (this.width / 2))
       .attr('y', 0 - (this.margin.top / 2))
       .attr('text-anchor', 'middle')
-      .style('font-size', (this.titleFontSize === undefined) ?
+      .attr('font-size', (this.titleFontSize === undefined) ?
         `${Math.min(20, Math.min(this.width, this.height) / 4)}px` :
         this.titleFontSize)
       .style('font-family', this.fontFamily)
@@ -337,7 +337,7 @@ class Line extends Chart {
       this.svg.append('g')
         .attr('class', iClass + 'text')
         .append('text')
-        .style('font-size', this.tooltipFontSize)
+        .attr('font-size', this.tooltipFontSize)
         .style('opacity', 0)
         .style('font-family', this.fontFamily)
         .attr('text-anchor', 'middle')

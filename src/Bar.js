@@ -109,10 +109,10 @@ class Bar extends Chart {
       this.svg.append('text')
         .attr('x', this.width / 2)
         .attr('y', this.height + this.margin.bottom / 1.3 + this.xLabelDelta)
+        .attr('font-size', this.labelFontSize)
         .attr('class', 'labelText')
         .style('text-anchor', 'middle')
         .style('font-family', this.fontFamily)
-        .style('font-size', this.labelFontSize)
         .text(this.xLabel);
     };
     // yLabel
@@ -121,10 +121,10 @@ class Bar extends Chart {
         .attr('transform', 'rotate(-90)')
         .attr('y', 0 - this.margin.left / 2 + this.yLabelDelta)
         .attr('x', 0 - (this.height / 2))
+        .attr('font-size', this.labelFontSize)
         .attr('class', 'labelText')
         .style('text-anchor', 'middle')
         .style('font-family', this.fontFamily)
-        .style('font-size', this.labelFontSize)
         .text(this.yLabel);
     };
   }
@@ -147,11 +147,11 @@ class Bar extends Chart {
       .selectAll('text')
       .attr('dy', null)
       .attr('transform', 'translate(0, 10)rotate(-45)')
-      .style('text-anchor', 'end')
-      .style('font-family', this.fontFamily)
-      .style('font-size', (this.axisFontSize === undefined) ?
+      .attr('font-size', (this.axisFontSize === undefined) ?
         `${Math.min(0.8, Math.min(this.width, this.height) / 140)}rem` :
         this.axisFontSize)
+      .style('text-anchor', 'end')
+      .style('font-family', this.fontFamily)
       .style('opacity', 0.9);
 
     // y-axis
@@ -160,11 +160,11 @@ class Bar extends Chart {
       .attr('class', `yAxis${this.graphClass}`)
       .selectAll('text')
       .attr('dy', null)
-      .attr('transform', 'translate(0, 5)')
-      .style('font-family', this.fontFamily)
-      .style('font-size', (this.axisFontSize === undefined) ?
+      .attr('font-size', (this.axisFontSize === undefined) ?
         `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
         this.axisFontSize)
+      .attr('transform', 'translate(0, 5)')
+      .style('font-family', this.fontFamily)
       .style('opacity', 0.9);
 
     // hide original axes
@@ -208,7 +208,7 @@ class Bar extends Chart {
       .attr('y', 0 - (this.margin.top / 2))
       .attr('class', 'title')
       .attr('text-anchor', 'middle')
-      .style('font-size', (this.titleFontSize === undefined) ?
+      .attr('font-size', (this.titleFontSize === undefined) ?
         `${Math.min(40, Math.min(this.width, this.height) / 5)}px` :
         this.titleFontSize)
       .style('font-family', this.fontFamily)
@@ -248,6 +248,7 @@ class Bar extends Chart {
       .append('div')
       .style('opacity', 0)
       .attr('class', 'tooltip')
+      .attr('font-size', this.tooltipFontSize)
       .style('position', 'absolute')
       .style('background-color', 'white')
       .style('border', 'solid')
@@ -255,7 +256,6 @@ class Bar extends Chart {
       .style('border-radius', '5px')
       .style('padding', '3px')
       .style('font-family', this.fontFamily)
-      .style('font-size', this.tooltipFontSize)
       .style('pointer-events', 'none');
 
     // event functions
