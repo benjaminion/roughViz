@@ -159,7 +159,8 @@ class Line extends Chart {
     } else if (yExtent[1] <= 0) {
       this.interceptHeight = 0;
     } else {
-      this.interceptHeight = this.height * yExtent[1] / yRange
+      //this.interceptHeight = this.height * yExtent[1] / yRange
+      this.interceptHeight = this.yScale(0);
     }
   }
 
