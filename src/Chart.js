@@ -18,10 +18,11 @@ class Chart {
   }
 
   setSvg() {
+    const fullWidth = this.width + this.margin.left + this.margin.right;
+    const fullHeight = this.height + this.margin.top + this.margin.bottom;
     this.svg = select(this.el)
       .append('svg')
-     .attr("viewBox", `0 0 ${(this.width + this.margin.left + this.margin.right)}
-       ${(this.height + this.margin.top + this.margin.bottom)}`)
+      .attr("viewBox", `0 0 ${fullWidth} ${fullHeight}`)
       .append('g')
       .attr('id', this.roughId)
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
